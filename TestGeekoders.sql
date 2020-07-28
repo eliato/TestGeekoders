@@ -1,5 +1,5 @@
 ﻿# Host: 127.0.0.1  (Version 5.5.5-10.3.22-MariaDB-1ubuntu1)
-# Date: 2020-07-27 16:55:53
+# Date: 2020-07-28 02:19:44
 # Generator: MySQL-Front 6.0  (Build 2.20)
 
 
@@ -17,13 +17,13 @@ CREATE TABLE `empresas` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`idEmpresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "empresas"
 #
 
-INSERT INTO `empresas` VALUES (1,'Demo','0418-121220-122-2','22922222','san salvador, el salvador','122',NULL,NULL),(4,'NUEVA EMPRESA','3232323-2323-232-2','2322222','misma direccion','san salvador','2020-07-27 22:49:33','2020-07-27 22:49:33');
+INSERT INTO `empresas` VALUES (1,'EMPRESA DEMO','0217-121289-102-0','2292-3222','direccion demostracion','11','2020-07-28 07:28:48','2020-07-28 07:28:48');
 
 #
 # Structure for table "failed_jobs"
@@ -62,6 +62,23 @@ CREATE TABLE `migrations` (
 INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1);
 
 #
+# Structure for table "municipios"
+#
+
+CREATE TABLE `municipios` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombreMunicipio` varchar(25) DEFAULT NULL,
+  `idDepartamento` int(2) DEFAULT NULL COMMENT 'id del departamento al que pertenese',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "municipios"
+#
+
+INSERT INTO `municipios` VALUES (1,'Ahuchapan',1),(2,'Apaneca',1),(3,'Atiquizaya',1),(4,'Concepcion de Ataco',1),(5,'El Refugio',1),(6,'Guaymanco',1),(7,'Jujutla',1),(8,'San Francisco Menendez',1),(9,'San Lorenzo',1),(10,'San Pedro Puxtla',1),(11,'Tacuba',1),(12,'Turin',1);
+
+#
 # Structure for table "password_resets"
 #
 
@@ -78,30 +95,30 @@ CREATE TABLE `password_resets` (
 
 
 #
-# Structure for table "Roles"
+# Structure for table "roles"
 #
 
-CREATE TABLE `Roles` (
+CREATE TABLE `roles` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `nombreRol` varchar(45) CHARACTER SET utf8 DEFAULT NULL COMMENT 'rol',
   `descripcionRol` varchar(150) CHARACTER SET utf8 DEFAULT NULL,
   `permisos` varchar(150) CHARACTER SET utf8 DEFAULT NULL,
   `Empresas_idempresa` int(3) DEFAULT NULL COMMENT 'id de la empresa',
   PRIMARY KEY (`idRol`),
-  KEY `fk_Rol_empresa` (`Empresas_idempresa`),
-  CONSTRAINT `fk_Rol_empresa` FOREIGN KEY (`Empresas_idempresa`) REFERENCES `empresas` (`idEmpresa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `fk_Rol_empresa` (`Empresas_idempresa`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 #
-# Data for table "Roles"
+# Data for table "roles"
 #
 
+INSERT INTO `roles` VALUES (1,'Supervisor','supervisa','modificar',1);
 
 #
-# Structure for table "Empleados"
+# Structure for table "empleados"
 #
 
-CREATE TABLE `Empleados` (
+CREATE TABLE `empleados` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `nombres` varchar(45) DEFAULT NULL,
   `apellidos` varchar(45) DEFAULT NULL,
@@ -110,17 +127,20 @@ CREATE TABLE `Empleados` (
   `estado` tinyint(2) DEFAULT 1 COMMENT '1=Activo, 2=inactivo',
   `Empresas_idEmpresa` int(3) DEFAULT NULL COMMENT 'id de la empresa a la que pertenece',
   `Roles_idRol` int(3) DEFAULT NULL COMMENT 'id del rol que tiene asignado',
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `fk_Empleado_Rol` (`Roles_idRol`),
-  KEY `fk_Empleado_Empresa` (`Empresas_idEmpresa`),
-  CONSTRAINT `fk_Empleado_Empresa` FOREIGN KEY (`Empresas_idEmpresa`) REFERENCES `empresas` (`idEmpresa`),
-  CONSTRAINT `fk_Empleado_Rol` FOREIGN KEY (`Roles_idRol`) REFERENCES `Roles` (`idRol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_empleado_empresa` (`Empresas_idEmpresa`),
+  CONSTRAINT `fk_Empleado_Rol` FOREIGN KEY (`Roles_idRol`) REFERENCES `roles` (`idRol`),
+  CONSTRAINT `fk_empleado_empresa` FOREIGN KEY (`Empresas_idEmpresa`) REFERENCES `empresas` (`idEmpresa`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
-# Data for table "Empleados"
+# Data for table "empleados"
 #
 
+INSERT INTO `empleados` VALUES (1,'FASDF','SDFSAD',32323323,'233332',1,1,1,'2020-07-28 08:05:41','2020-07-28 08:05:41');
 
 #
 # Structure for table "users"
