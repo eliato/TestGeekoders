@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Empresas;
+use App\Empleados;
 use Illuminate\Support\Facades\DB;
-class EmpresasController extends Controller
+class EmpleadosController extends Controller
 {
     
     public function __construct()
@@ -14,15 +14,16 @@ class EmpresasController extends Controller
     }
     public function index()
     {
-    	$empresas = Empresas::all();
-        return view('empresas.index',compact('empresas'));
+    	$empleados = Empleados::all();
+        return view('empleados.index',compact('empleados'));
 
     }
 
     public function create()
     {   
-        $municipios = DB::table('municipios')->get();
-    	return view('empresas.create',compact('municipios'));
+        $empresas = DB::table('empresas')->get();
+        $roles = DB::table('roles')->get();
+    	return view('empleados.create',compact('empresas','roles'));
     }
 
          // funcion que sirve para validar reglas luego solo la mando a llamar.
@@ -41,18 +42,20 @@ class EmpresasController extends Controller
          public function store(Request $request)
          {
              //dd($request->all());
-             $this->perfomValidation($request);      
-            $empresa= new Empresas();
-             $empresa->nombreEmpresa = strtoupper($request->input('nombreEmpresa'));
-             $empresa->nit = $request->input('nit');
-             $empresa->telefono = $request->input('telefono');
-             $empresa->direccion = $request->input('direccion');
-             $empresa->id_municipio = $request->input('municipio');
-             $empresa->save();
+                  
+            $empleado= new Empleados();
+             $empleado->nombres = strtoupper($request->input('nombres'));
+             $empleado->apellidos = strtoupper($request->input('apellidos'));
+             $empleado->nit = $request->input('nit');
+             $empleado->dui = $request->input('dui');
+             $empleado->Empresas_idEmpresa = $request->input('empresa');
+             $empleado->Roles_idRol = $request->input('rol');
+             
+             $empleado->save();
      
          
              //return back(); //lo deja donde esta
-             return redirect('/empresa');
+             return redirect('/empleados');
          }
      
          public function edit($empresa){
